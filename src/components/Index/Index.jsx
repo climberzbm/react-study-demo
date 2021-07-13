@@ -54,13 +54,15 @@ export default class Index extends Component {
   delAllDoneTodo = () => {
     const { todos } = this.state
 
-    const newTodos = todos.filter(todo => {
-      if (todo.done) {
-        return false
-      }
-      return true
-    })
+    // const newTodos = todos.filter(todo => !todo.done)
+    this.setState({ todos: todos.filter(todo => !todo.done) })
+  }
 
+  checkAll = done => {
+    const { todos } = this.state
+    const newTodos = todos.map(todo => {
+      return { ...todo, done }
+    })
     this.setState({ todos: newTodos })
   }
 
@@ -70,7 +72,7 @@ export default class Index extends Component {
       <div className="todo_wrap">
         <Header addTodo={this.addTodo} />
         <List todos={todos} changeTodo={this.changeTodo} delTodo={this.delTodo} />
-        <Footer delAllDoneTodo={this.delAllDoneTodo}/>
+        <Footer todos={todos} checkAll={this.checkAll} delAllDoneTodo={this.delAllDoneTodo} />
       </div>
     )
   }
